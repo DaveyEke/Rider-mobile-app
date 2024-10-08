@@ -50,7 +50,7 @@ const signIn = () => {
       /> 
       </View>
 
-      <Text className='left-5 text-bold text-1xl absolute mt-[360px]'>Password:</Text>
+      <Text className='left-5 text-bold text-1xl absolute mt-[365px]'>Password:</Text>
       <View className={`bg-neutral-300 p-8 mr-4 ml-4 mt-[40px] rounded-full jusitfy-center border-2 ${changePasswordBorderColor(password)}`}>
       <Image 
         source={require('@/assets/icons/lock.png')}
