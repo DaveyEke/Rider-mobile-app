@@ -1,9 +1,11 @@
-import { View, Text , Image} from 'react-native'
+import { View, Text , Image, Pressable , TouchableOpacity} from 'react-native'
 import React from 'react'
 import { Stack } from 'expo-router'
 import { TextInput } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { useState } from 'react'
+import { ScrollView } from 'react-native'
+import { Link } from 'expo-router'
 
 const signIn = () => {
   const [email , setEmail ] = useState("");
@@ -24,13 +26,9 @@ const signIn = () => {
       return 'border-white';
     }
 }
-
-  
-
-  
-  
-  
+    const signInUser = () => {}
   return (
+    
     <View className='bg-white flex-1'>
       <StatusBar  style='light'/>
       <Image 
@@ -48,6 +46,7 @@ const signIn = () => {
       <TextInput className='bg-neutral-300 top-5 left-5 ml-[50px] mt-[5px] absolute rounded-full' placeholder='Enter your email' 
         onChangeText={setEmail}
         value={email}
+        placeholderTextColor={"black"}
       /> 
       </View>
 
@@ -61,13 +60,25 @@ const signIn = () => {
       <TextInput 
       className='bg-neutral-300 top-5 left-5 ml-[50px] mt-[5px] absolute rounded-full' 
       placeholder='Enter your Password' 
+      placeholderTextColor={"black"}
       secureTextEntry
       onChangeText={setPassword}
       value={password}
       /> 
       </View>
+      <TouchableOpacity  className='self-center w-[321px]  mt-[50px] bg-blue-500 p-5  rounded-full'>
+        <Text className='self-center text-white font-bold'>Sign In</Text>
+      </TouchableOpacity>
+      <View className='flex-row items-center p-3 mt-[15px]'>
+      <Text className=' ml-[60px] text-neutral-500 '>Don't have an account? </Text>
+      <Link href={'/(auth)/sign-up'}>
+      <Text className=' text-blue-500 font-bold '>Create One!</Text>
+      </Link>
+      </View>
     </View>
+  
   )
 }
 
 export default signIn
+

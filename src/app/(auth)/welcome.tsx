@@ -6,15 +6,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import React from 'react'
 import Swiper from "react-native-swiper";
 import CustomButton from "@/src/components/CustomButton";
-
+import { StatusBar } from "expo-status-bar";
 
 const Home = () => {
   const swiperRef = useRef<Swiper>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const isLastSlide = activeIndex === onboarding.length - 1;
    return (
-    
   <SafeAreaView className="flex h-full items-center justify-between bg-white">
+     <StatusBar  style='dark'/>
   <TouchableOpacity className="w-full justify-end flex items-end p-6">
     <Text onPress={()=>router.push('../(auth)/sign-in')} className="text-black text-lg font-JakartaSemiBold">Skip</Text>
   </TouchableOpacity>
