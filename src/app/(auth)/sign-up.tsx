@@ -8,24 +8,36 @@ import { ScrollView } from 'react-native'
 import { Link } from 'expo-router'
 import { supabase } from '@/lib/supabase'
 import { Alert } from 'react-native'
-
+import { randomUUID } from 'expo-crypto'
 
 const signUp = () => {
   const [email , setEmail ] = useState("");
   const [password , setPassword ] = useState("")
+  const [ name , setName ]  = useState("")
  
 const [loading, setLoading] = useState(false);
 
-async function signUpWithEmail() {
-  setLoading(true);
-  const { error } = await supabase.auth.signUp({
-    email: email,
-    password: password,
-  });
+const signUpWithEmailAndName = async () => {
 
-  if (error) Alert.alert(error.message);
-  setLoading(false);
+    setLoading(true);
+    const { error , data : { user } } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
+
+   await supabase
+   .from("profiles")
+   .insert({ username: name , id : randomUUID() })
+   .eq("id", user?.id)
+   .single()
+  
+    if (error) Alert.alert(error.message);
+    setLoading(false);
+ 
+  
 }
+
+
   const changePasswordBorderColor = (input : string) => {
       if (input.length > 0) {
         return'border-blue-500';
@@ -59,15 +71,15 @@ async function signUpWithEmail() {
         className = "absolute left-5 top-5 w-6 h-6  self-start"
       />
       <TextInput className='bg-neutral-300 top-5 left-5 ml-[50px] mt-[5px] absolute rounded-full' placeholder='Enter your name' 
-        onChangeText={setEmail}
-        value={email}
+        onChangeText={setName}
+        value={name}
         placeholderTextColor={"black"}
       /> 
       </View>
       <Text className='left-5 text-bold text-1xl mt-[15px]'>Email:</Text>
       <View className={`bg-neutral-300 p-8 mr-4 ml-4 mt-[8] rounded-full jusitfy-center border-2 ${changeEmailBorderColor(email)}`}>
       <Image 
-        source={require('@/assets/icons/person.png')}
+        source={require('@/assets/icons/email.png')}
         resizeMode='contain'
         className = "absolute left-5 top-5 w-6 h-6  self-start"
       />
@@ -85,13 +97,13 @@ async function signUpWithEmail() {
         className = "absolute left-5 top-5 w-6 h-6  self-start"
       />
       <TextInput className='bg-neutral-300 top-5 left-5 ml-[50px] mt-[5px] absolute rounded-full' placeholder='Enter your password' 
-        onChangeText={setEmail}
-        value={email}
+        onChangeText={setPassword}
+        value={password}
         placeholderTextColor={"black"}
         secureTextEntry
       /> 
       </View>
-      <TouchableOpacity  className='self-center w-[321px]  mt-[38px] bg-blue-500 p-5  rounded-full' onPress={signUpWithEmail}>
+      <TouchableOpacity  className='self-center w-[321px]  mt-[38px] bg-blue-500 p-5  rounded-full' onPress={signUpWithEmailAndName}>
         <Text className='self-center text-white font-bold'>Create Account</Text>
       </TouchableOpacity>
       <View className='flex-row items-center p-3 mt-[15px]'>
