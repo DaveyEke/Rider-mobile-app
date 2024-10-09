@@ -105,7 +105,7 @@ async function signInWithEmail() {
           resizeMode='contain'
         />
         <Text className='text-bold  text-3xl self-center mt-[20px]'>Success!</Text>
-        <Text className='font-bold text-neutral-500 self-center mt-[20px]'>Your account has been created successfully.</Text>
+        <Text className='font-bold text-neutral-500 self-center mt-[20px]'>Your have been signed in successfully!</Text>
         <TouchableOpacity  className='self-center w-[321px]  mt-[39px] bg-blue-500 p-5  rounded-full' onPress={handleContinue}>
           <Text className='text-white text-xl self-center font-bold'>Continue</Text>
         </TouchableOpacity>
