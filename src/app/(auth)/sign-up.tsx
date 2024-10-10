@@ -1,6 +1,6 @@
 import { View, Text , Image, Pressable , TouchableOpacity} from 'react-native'
 import React from 'react'
-import { Stack } from 'expo-router'
+import { router, Stack } from 'expo-router'
 import { TextInput } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { useState } from 'react'
@@ -9,6 +9,7 @@ import { Link } from 'expo-router'
 import { supabase } from '@/lib/supabase'
 import { Alert } from 'react-native'
 import { randomUUID } from 'expo-crypto'
+import { useAuth } from '@/src/providers/AuthProvider'
 
 const signUp = () => {
   const [email , setEmail ] = useState("");
@@ -18,22 +19,30 @@ const signUp = () => {
 const [loading, setLoading] = useState(false);
 
 const signUpWithEmailAndName = async () => {
-
     setLoading(true);
-    const { error , data : { user } } = await supabase.auth.signUp({
+    const { session } = useAuth();
+    const { error  } = await supabase.auth.signUp({
       email: email,
       password: password,
     });
 
-   await supabase
-   .from("profiles")
-   .insert({ username: name , id : randomUUID() })
-   .eq("id", user?.id)
-   .single()
-  
-    if (error) Alert.alert(error.message);
-    setLoading(false);
- 
+    if (error){
+      console.log(error)
+      Alert.alert(error.message);
+      
+      await supabase
+      .from("profiles")
+      .insert({ username : name })
+      .eq("id", session?.user.id)
+      .single()
+
+      setLoading(false)
+      return;
+    }  else {
+      setLoading(false)
+      router.push("/(tabs)/")
+    }
+    
   
 }
 
@@ -53,7 +62,7 @@ const signUpWithEmailAndName = async () => {
       return 'border-white';
     }
 }
-    const signUpUser = () => {}
+   
   return (
     
     <View className='bg-white flex-1'>
@@ -104,7 +113,7 @@ const signUpWithEmailAndName = async () => {
       /> 
       </View>
       <TouchableOpacity  className='self-center w-[321px]  mt-[38px] bg-blue-500 p-5  rounded-full' onPress={signUpWithEmailAndName}>
-        <Text className='self-center text-white font-bold'>Create Account</Text>
+        <Text className='self-center text-white font-bold'>{ loading ? 'Creating...account' : 'Create Account'}</Text>
       </TouchableOpacity>
       <View className='flex-row items-center p-3 mt-[15px]'>
       <Text className=' ml-[60px] text-neutral-500 '>Already have an account? </Text>

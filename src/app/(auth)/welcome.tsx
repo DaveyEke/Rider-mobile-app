@@ -7,8 +7,20 @@ import React from 'react'
 import Swiper from "react-native-swiper";
 import CustomButton from "@/src/components/CustomButton";
 import { StatusBar } from "expo-status-bar";
+import { useAuth } from "@/src/providers/AuthProvider";
+import { Redirect } from "expo-router";
 
 const Home = () => {
+  
+  
+  const { session } = useAuth()
+
+  if(!session){
+    return <Redirect href="/(auth)/sign-in" />
+  } else {
+    return <Redirect  href={'/(tabs)/'}/>
+  }
+  
   const swiperRef = useRef<Swiper>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const isLastSlide = activeIndex === onboarding.length - 1;

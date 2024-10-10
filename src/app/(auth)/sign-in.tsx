@@ -96,7 +96,7 @@ async function signInWithEmail() {
         visible={showModal}
         animationType='slide'
         transparent={true}
-      >
+      > 
         <View className='items-center flex-1 pl-4 pr-4 ' style={styles.modalViewBg}   >
         <View className='w-full h-[450px]  mt-[225px] rounded-2xl absoluteitems-center bg-white'>
         <Image 
