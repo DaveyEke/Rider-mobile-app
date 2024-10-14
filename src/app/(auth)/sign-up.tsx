@@ -18,34 +18,26 @@ const signUp = () => {
  
 const [loading, setLoading] = useState(false);
 
-const signUpWithEmailAndName = async () => {
+ async function signUpWithEmailAndName () {
     setLoading(true);
-    const { session } = useAuth();
-    const { error  } = await supabase.auth.signUp({
+    const {  error  } = await supabase.auth.signUp({
       email: email,
       password: password,
+      options: {
+        data : {
+          full_name : name
+        },
+      },
     });
-
     if (error){
       console.log(error)
       Alert.alert(error.message);
-      
-      await supabase
-      .from("profiles")
-      .insert({ username : name })
-      .eq("id", session?.user.id)
-      .single()
-
-      setLoading(false)
       return;
     }  else {
       setLoading(false)
       router.push("/(tabs)/")
     }
-    
-  
 }
-
 
   const changePasswordBorderColor = (input : string) => {
       if (input.length > 0) {
@@ -64,7 +56,6 @@ const signUpWithEmailAndName = async () => {
 }
    
   return (
-    
     <View className='bg-white flex-1'>
       <StatusBar  style='light'/>
       <Image 

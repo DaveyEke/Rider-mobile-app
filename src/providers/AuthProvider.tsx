@@ -1,5 +1,7 @@
 import { supabase } from '@/lib/supabase';
 import { Session } from '@supabase/supabase-js';
+import { Tables } from '../types';
+
 import {
   PropsWithChildren,
   createContext,
@@ -8,11 +10,15 @@ import {
   useState,
 } from 'react';
 
+type Profile = Tables<'profiles'> | null
+
 type AuthData = {
   session: Session | null;
-  profile: any;
+  profile: Profile | undefined
   loading: boolean;
 };
+
+
 
 const AuthContext = createContext<AuthData>({
   session: null,
@@ -22,7 +28,7 @@ const AuthContext = createContext<AuthData>({
 
 export default function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null>(null);
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState<Profile>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -40,9 +46,9 @@ export default function AuthProvider({ children }: PropsWithChildren) {
           .select('*')
           .eq('id', session.user.id)
           .single();
-        setProfile(data || null);
+        setProfile(data);
       }
-
+      
       setLoading(false);
     };
 
