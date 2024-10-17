@@ -55,7 +55,7 @@ const index = () => {
           setErrorMsg('Permission to access location was denied');
           return;
         }
-  
+        
         let location = await Location.getCurrentPositionAsync({});
         setLocation(location);
         
@@ -88,6 +88,7 @@ const index = () => {
           <View className='justify-center mt-[275px] items-center'>
             <ActivityIndicator size={'large'} color={'green'}/>
             <Text className={` mt-[5px] text-2xl ${ colorscheme == 'dark' ? 'text-white' : 'text-black'}`}>Loading map...</Text>
+            <Text className={` mt-[5px] font-bold ${ colorscheme == 'dark' ? 'text-white' : 'text-black'}`}>Make sure you have location turned on in settings!</Text>
            </View>
         ) : (
           <MapView
