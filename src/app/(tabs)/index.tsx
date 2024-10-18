@@ -78,10 +78,10 @@ const index = () => {
     console.log(location)
    
   return (
-    <View>
+    <View className='flex-1'>
       <Stack.Screen options={{ headerShown : false }} />
-      <Text className={`text-3xl ml-[20px] mt-[70px] font-JakartaExtraBold ${ colorscheme == 'dark' ? 'text-white' : 'text-black'}`}>{` Welcome ${session.user.user_metadata.full_name || "User"}`}</Text>
-    
+      <Text className={`text-3xl ml-[20px] mt-[70px] font-JakartaExtraBold ${ colorscheme == 'dark' ? 'text-white' : 'text-black'}`}>{` Welcome ${session.user.user_metadata.full_name  || "User"}`}</Text>
+      <View className='pl-5 pr-5'>
       {
 
         mapLoading ? (
@@ -94,6 +94,7 @@ const index = () => {
           <MapView
           style={styles.map}
           initialRegion={{
+            // Remeber to put the dynamic latituded and Longitudes back
             latitude: currentLatitude || defaultLatitude ,
             longitude: currentLongitude || defaultLongitude,
             latitudeDelta: 0.0922,
@@ -112,6 +113,7 @@ const index = () => {
         )
 
       }
+      </View>
 
       <Pressable className='absolute mt-[74px] ml-[350px]' onPress={confirmSignOut}>
       {
@@ -140,6 +142,8 @@ const styles = StyleSheet.create({
   },
   map: {
     width: '100%',
-    height: '100%',
+    height: '65%',
+    borderRadius : 20,
+    marginTop : 20,
   },
 });
